@@ -162,7 +162,7 @@ namespace ChatServerWin
                             //var msg = pkt.payload.GetProperty("msg").GetString();
                             var bytes = Encoding.UTF8.GetByteCount(msg ?? "");
                             AppendAudit(now, session.Username, to, "DM", bytes);
-                            string key = "admin"; // or your key variable
+                            string key = session.Username; // or your key variable
                             if (_sessions.TryGetValue(key, out ClientSession session1))
 
                             {
@@ -202,8 +202,8 @@ namespace ChatServerWin
                             //foreach (var t in toArr)
                             //{
                                 //var destUser = t.GetString();
-                                 key = "admin"; // or your key variable
-                                if (_sessions.TryGetValue(key, out ClientSession session2))
+                                 key = session.Username;// or your key variable
+                            if (_sessions.TryGetValue(key, out ClientSession session2))
                                 {
                                     session2.Enqueue(MakeEnvelope("INCOMING_MULTI", new { from = session.Username, msg = multiMsg }));
                                     Interlocked.Increment(ref _messagesDelivered);
